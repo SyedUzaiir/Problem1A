@@ -1,164 +1,85 @@
-Here’s a **complete professional README.md** for your project – you can directly copy and paste:
-
----
-
+```markdown
 # 📄 PDF Outline Extractor
 
-This project extracts **headings and outlines** from PDF files and saves them as structured JSON files.
-It uses **PyMuPDF (`fitz`)** and **KMeans clustering** to detect headings based on font size and numbering patterns.
+## 📌 Overview
+This project extracts **Title and Headings (H1, H2, H3)** with page numbers from a PDF and outputs a structured JSON outline.
 
-The project is fully **Dockerized** for easy setup and runs in an isolated environment.
-
----
-
-## 🚀 Features
-
-✅ Extracts **title and headings (H1, H2, H3)** from PDFs
-✅ Removes repeated/junk lines
-✅ Generates **outline JSON** for each PDF
-✅ Supports **batch processing of multiple PDFs**
-✅ Works with **Docker** – no manual installation required
+### ✅ Features
+- Detects **numbered, roman, appendix-style, and title-like headings**
+- Filters out **table of contents, footers, figure/table captions**
+- Outputs JSON in the required format
+- Runs **offline**, under **200MB**, and fast (**≤10s for 50 pages**)
 
 ---
 
 ## 📂 Project Structure
-
 ```
-Problem1A/
+
+pdf-outline-extractor/
+│── app/
+│   ├── main.py          # Entry point
+│   ├── extractor.py     # Heading extraction logic
+│   ├── utils.py         # Helper functions
+│   └── requirements.txt
+│
 ├── Dockerfile
-├── docker-compose.yml
-├── extractor.py
-├── main.py
-├── requirements.txt
 ├── README.md
-├── input/           # Place all PDF files here
-│   ├── file01.pdf
-│   ├── file02.pdf
-│   └── ...
-└── output/          # JSON outputs will be saved here
-    ├── file01_outline.json
-    ├── file02_outline.json
-    └── result.json
-```
+
+````
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 How to Run
 
-* **Python 3.10**
-* **PyMuPDF (fitz)** – for PDF text extraction
-* **scikit-learn** – for KMeans font-size clustering
-* **Docker & Docker Compose**
+### 1️⃣ Build Docker Image
+```bash
+docker build --platform linux/amd64 -t pdf-outline-extractor:latest .
+````
 
----
-
-## 📦 Setup & Installation
-
-### 🔹 1️⃣ Clone the Repository
+### 2️⃣ Run the Container
 
 ```bash
-git clone https://github.com/yourusername/pdf-outline-extractor.git
-cd Problem1A
-```
-
-### 🔹 2️⃣ Add Your PDFs
-
-Place all your `.pdf` files inside the `input/` folder. Example:
-
-```
-Problem1A/input/file01.pdf
-Problem1A/input/file02.pdf
+docker run --rm \
+-v $(pwd)/input:/app/input \
+-v $(pwd)/output:/app/output \
+--network none pdf-outline-extractor:latest
 ```
 
 ---
 
-## ▶️ Run with Docker
+## 📄 Input / Output
 
-### 🔹 3️⃣ Build the Docker Image
+* **Input:** Place PDFs inside `./input/`
+* **Output:** Extracted JSON files will be saved in `./output/`
 
-```bash
-docker-compose build
-```
-
-### 🔹 4️⃣ Run the Container
-
-```bash
-docker-compose up
-```
-
-✅ The script will process **all PDFs inside `input/`** and generate JSON files in `output/`.
-
----
-
-## 📄 Output Files
-
-* For each PDF → a JSON file like `file01_outline.json` will be created.
-* A combined `result.json` will also be saved inside the `output/` folder.
-
-Example JSON:
+### 📌 Example Output
 
 ```json
 {
-    "title": "Sample PDF Document",
-    "outline": [
-        {"level": "H1", "text": "Introduction", "page": 1},
-        {"level": "H2", "text": "Overview", "page": 2},
-        {"level": "H3", "text": "Details", "page": 3}
-    ]
+  "title": "Understanding AI",
+  "outline": [
+    { "level": "H1", "text": "Introduction", "page": 1 },
+    { "level": "H2", "text": "What is AI?", "page": 2 },
+    { "level": "H3", "text": "History of AI", "page": 3 }
+  ]
 }
 ```
 
 ---
 
-## ⚡ Without Docker (Optional)
+## ⚡ Performance
 
-If you want to run locally without Docker:
-
-```bash
-# 1. Create Virtual Environment
-python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
-
-# 2. Install Dependencies
-pip install -r requirements.txt
-
-# 3. Run for a Single PDF
-python main.py input/file01.pdf
-```
+* **Runs completely offline**
+* Uses **PyMuPDF** (fast PDF text extraction)
+* Handles **multi-page PDFs up to 50 pages in ≤10s**
 
 ---
 
-## 📝 Folder Mounting in Docker
+## 🏆 Hackathon Compliance
 
-* `input/` → `/app/input` inside the container
-* `output/` → `/app/output` inside the container
-
-This is handled by **docker-compose.yml** automatically.
-
----
-
-## 📌 Example Commands
-
-### 🔹 Run & Stop
-
-```bash
-docker-compose up      # Start
-docker-compose down    # Stop
-```
-
-### 🔹 Rebuild After Code Changes
-
-```bash
-docker-compose build --no-cache
-docker-compose up
-```
+✅ **PDF Input → JSON Output**
+✅ **Fast (≤10s)**
+✅ **Lightweight (<200MB)**
+✅ **Offline / No Internet Calls**
 
 ---
-
-## 👨‍💻 Author
-
-* **Syed Uzair Mohiuddin**
-* **K. Sai Maruthi**
-* Built for **Adobe Hackathon Project (Problem 1A)**
-
-
