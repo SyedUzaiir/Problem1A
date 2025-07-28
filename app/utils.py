@@ -1,28 +1,35 @@
 import re
 
-def is_heading_artifact(line: str) -> bool:
-    text = line.strip().lower()
+PAGE_OF_PATTERN = re.compile(r"^\s*page\s+\d+\s+of\s+\d+\s*$", re.IGNORECASE)
+JUNK_HEADING_PATTERNS = [
+    re.compile(r"^table\s+of\s+contents$", re.IGNORECASE),
+    re.compile(r"^contents$", re.IGNORECASE),
+    re.compile(r"^figure\s+\d+$", re.IGNORECASE),
+    re.compile(r"^table\s+\d+$", re.IGNORECASE),
+    re.compile(r"^\d+\s+figures?$", re.IGNORECASE),
+    re.compile(r"^\d+\s+tables?$", re.IGNORECASE),
+]
 
-    # Junk patterns
-    if len(text) <= 2:
+def is_heading_artifact(text: str) -> bool:
+    txt = text.strip()
+    lower_txt = txt.lower()
+    if len(txt) <= 2:
         return True
-    if text.isdigit():
+    if PAGE_OF_PATTERN.search(txt):
         return True
-    if re.match(r'^\d+(\.\d+)*$', text):  # Section number alone
+    for pat in JUNK_HEADING_PATTERNS:
+        if pat.search(txt):
+            return True
+    if txt.endswith('.') and len(txt.split()) > 7:
         return True
-    if any(keyword in text for keyword in ["table of contents", "figure", "fig.", "page", "index"]):
+    if txt.islower() and len(txt.split()) > 5:
         return True
-    if len(text.split()) > 12:
+    if txt.isdigit():
         return True
-    if len(text) > 80:
+    if re.match(r'^\d+(\.\d+)+$', txt):
         return True
-    if text.islower() and len(text.split()) > 3:
+    if len(txt.split()) == 1 and lower_txt not in {"summary", "introduction", "conclusion"}:
+        return True
+    if txt.count(' ') > 10 or len(txt.split()) > 15:
         return True
     return False
-
-def get_heading_level(text: str) -> str:
-    """Determine heading level based on numbering depth."""
-    if re.match(r'^\d+\.', text):  # 1. or 1.2 etc.
-        depth = text.split()[0].count('.')
-        return "H1" if depth == 0 else "H2" if depth == 1 else "H3"
-    return "H1"  # Default fallback
