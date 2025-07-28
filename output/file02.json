@@ -3,42 +3,22 @@
   "outline": [
     {
       "level": "H2",
+      "text": "Foundation Level Extensions",
+      "page": 1
+    },
+    {
+      "level": "H3",
+      "text": "International Software Testing Qualifications Board",
+      "page": 1
+    },
+    {
+      "level": "H2",
       "text": "Revision History",
-      "page": 3
-    },
-    {
-      "level": "H1",
-      "text": "18 JUNE 2013",
-      "page": 3
-    },
-    {
-      "level": "H1",
-      "text": "23 JULY 2013",
       "page": 3
     },
     {
       "level": "H2",
       "text": "WG reviewed and confirmed",
-      "page": 3
-    },
-    {
-      "level": "H1",
-      "text": "6 NOV 2013",
-      "page": 3
-    },
-    {
-      "level": "H1",
-      "text": "11 DEC 2013",
-      "page": 3
-    },
-    {
-      "level": "H1",
-      "text": "20 DEC 2013",
-      "page": 3
-    },
-    {
-      "level": "H1",
-      "text": "31 MAY 2014",
       "page": 3
     },
     {
@@ -63,12 +43,17 @@
     },
     {
       "level": "H2",
-      "text": "Keeping It Current",
+      "text": "Learning Objectives",
       "page": 4
     },
     {
       "level": "H2",
-      "text": "Trademarks",
+      "text": "Entry Requirements",
+      "page": 4
+    },
+    {
+      "level": "H2",
+      "text": "Keeping It Current",
       "page": 4
     },
     {
@@ -93,11 +78,6 @@
     },
     {
       "level": "H2",
-      "text": "Agile Tester",
-      "page": 6
-    },
-    {
-      "level": "H2",
       "text": "2. Introduction to Foundation Level Agile Tester Extension",
       "page": 7
     },
@@ -118,17 +98,7 @@
     },
     {
       "level": "H2",
-      "text": "Baseline: Foundation",
-      "page": 8
-    },
-    {
-      "level": "H2",
       "text": "Extension: Agile Tester",
-      "page": 8
-    },
-    {
-      "level": "H2",
-      "text": "Foundation Level.",
       "page": 8
     },
     {
@@ -147,41 +117,6 @@
       "page": 10
     },
     {
-      "level": "H1",
-      "text": "AFM1",
-      "page": 10
-    },
-    {
-      "level": "H1",
-      "text": "AFM2",
-      "page": 10
-    },
-    {
-      "level": "H1",
-      "text": "AFM3",
-      "page": 10
-    },
-    {
-      "level": "H1",
-      "text": "AFM4",
-      "page": 10
-    },
-    {
-      "level": "H1",
-      "text": "AFM5",
-      "page": 10
-    },
-    {
-      "level": "H1",
-      "text": "AFM6",
-      "page": 10
-    },
-    {
-      "level": "H1",
-      "text": "AFM7",
-      "page": 10
-    },
-    {
       "level": "H2",
       "text": "3.2 Content",
       "page": 10
@@ -189,11 +124,6 @@
     {
       "level": "H3",
       "text": "Chapter 1: Agile Software Development",
-      "page": 10
-    },
-    {
-      "level": "H2",
-      "text": "Manifesto.",
       "page": 10
     },
     {
@@ -219,16 +149,6 @@
     {
       "level": "H2",
       "text": "4.2 Documents and Web Sites",
-      "page": 12
-    },
-    {
-      "level": "H2",
-      "text": "Identifier",
-      "page": 12
-    },
-    {
-      "level": "H2",
-      "text": "Reference",
       "page": 12
     }
   ]

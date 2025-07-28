@@ -1,9 +1,10 @@
 import os
 import json
 import fitz  # PyMuPDF
-from extractor import extract_headings_from_text, GENERIC_UNINFORMATIVE
+from extractor import extract_headings_from_text, GENERIC_HEADINGS
 from utils import FIELD_LABEL_PATTERN
 import re
+from collections import Counter
 
 def get_base_dirs():
     if os.path.exists("/app/input"):
@@ -18,36 +19,44 @@ def get_base_dirs():
 INPUT_DIR, OUTPUT_DIR = get_base_dirs()
 
 def get_title(doc):
-    for page in doc:
-        text_lines = page.get_text("text").splitlines()
-        for line in text_lines[:10]:
-            s = line.strip()
-            if len(s) > 3 and not s.islower():
-                return s
+    # Robust: Get the largest/topmost non-form, not-artifact line on page 1 as title
+    page = doc.load_page(0)
+    blocks = page.get_text("dict")["blocks"]
+    candidates = []
+    for b in blocks:
+        if "lines" not in b:
+            continue
+        for l in b["lines"]:
+            for s in l["spans"]:
+                stxt = s["text"].strip()
+                if len(stxt) > 3 and not FIELD_LABEL_PATTERN.search(stxt) and not stxt.islower():
+                    candidates.append({
+                        "text": stxt,
+                        "size": s["size"],
+                        "flags": s["flags"],
+                        "y": s["bbox"][1]
+                    })
+    if candidates:
+        sorted_candidates = sorted(candidates, key=lambda x: (x["y"], -x["size"]))
+        return sorted_candidates[0]["text"]
     return "Untitled Document"
 
-from collections import Counter
+def is_numbered_heading(txt):
+    return bool(re.match(r'^\d+(\.\d+)*[\.\)]?\s+\S', txt))
 
-def filter_common_headings(headings, num_pages):
-    # Remove boilerplate repeated on >20% of pages or global generic words
-    count = Counter(h["text"].strip().lower() for h in headings)
-    blacklist = {t for t, f in count.items() if f > 0.2 * num_pages or t in GENERIC_UNINFORMATIVE}
-    seen = set()
-    result = []
-    for h in headings:
-        t = h["text"].strip().lower()
-        # Exclude generic one/two-word headings even if not frequent, unless numbered
-        if t in blacklist:
-            continue
-        nwords = len(t.split())
-        is_numbered = h["level"] in {"H1", "H2", "H3"} and re.match(r'^\d+(\.\d+)*', h["text"])
-        if nwords < 3 and t in GENERIC_UNINFORMATIVE and not is_numbered:
-            continue
-        if t in seen:
-            continue
-        seen.add(t)
-        result.append(h)
-    return result
+def should_drop_heading(txt, page_count, all_headings_counter):
+    txt_clean = txt.strip().lower()
+    if all_headings_counter[txt_clean] > 0.2 * page_count:
+        return True
+    if txt_clean in GENERIC_HEADINGS and (len(txt_clean.split()) < 3 and not is_numbered_heading(txt)):
+        return True
+    if re.match(r'^\d{1,2}\s+[A-Z]{3,}\s+\d{4}$', txt):  # 18 JUNE 2013
+        return True
+    if re.match(r'^[A-Z]{3,}\d?$', txt):  # AFM1
+        return True
+    if len(txt_clean.split()) == 1 and not is_numbered_heading(txt):
+        return True
+    return False
 
 def process_pdf(file_path, output_path):
     doc = fitz.open(file_path)
@@ -61,7 +70,7 @@ def process_pdf(file_path, output_path):
         pagewise_headings.append((page_num, headings))
         all_headings += headings
 
-    # FORM SUPPRESSION: Like before
+    # FORM SUPPRESSION
     num_field_like = sum(1 for h in all_headings if FIELD_LABEL_PATTERN.search(h["text"]))
     if all_headings and num_field_like / len(all_headings) > 0.2:
         outline = []
@@ -72,7 +81,21 @@ def process_pdf(file_path, output_path):
                 { "level": h["level"], "text": h["text"], "page": page_num }
                 for h in headings
             ])
-        outline = filter_common_headings(outline, num_pages)
+        # Dedup/clean up
+        txts = [h['text'] for h in outline]
+        counter = Counter([t.strip().lower() for t in txts])
+        seen = set()
+        clean_outline = []
+        for h in outline:
+            t = h['text'].strip()
+            if should_drop_heading(t, num_pages, counter):
+                continue
+            tkey = (t.lower(), h['level'])
+            if tkey in seen:
+                continue
+            seen.add(tkey)
+            clean_outline.append(h)
+        outline = clean_outline
     output = {"title": title, "outline": outline}
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2)
