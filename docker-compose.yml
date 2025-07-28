@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  pdf_extractor:
+    build: .
+    container_name: pdf-extractor
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
+    command: python main.py
