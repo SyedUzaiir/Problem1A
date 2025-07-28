@@ -19,7 +19,7 @@ def get_base_dirs():
 INPUT_DIR, OUTPUT_DIR = get_base_dirs()
 
 def get_title(doc):
-    # Robust: Get the largest/topmost non-form, not-artifact line on page 1 as title
+    # Robust: Get largest/topmost non-form field line from page 1 as title
     page = doc.load_page(0)
     blocks = page.get_text("dict")["blocks"]
     candidates = []
@@ -33,12 +33,11 @@ def get_title(doc):
                     candidates.append({
                         "text": stxt,
                         "size": s["size"],
-                        "flags": s["flags"],
-                        "y": s["bbox"][1]
+                        "y": l["bbox"][1]
                     })
     if candidates:
-        sorted_candidates = sorted(candidates, key=lambda x: (x["y"], -x["size"]))
-        return sorted_candidates[0]["text"]
+        sorted_cand = sorted(candidates, key=lambda x: (x["y"], -x["size"]))
+        return sorted_cand[0]["text"]
     return "Untitled Document"
 
 def is_numbered_heading(txt):
@@ -70,7 +69,6 @@ def process_pdf(file_path, output_path):
         pagewise_headings.append((page_num, headings))
         all_headings += headings
 
-    # FORM SUPPRESSION
     num_field_like = sum(1 for h in all_headings if FIELD_LABEL_PATTERN.search(h["text"]))
     if all_headings and num_field_like / len(all_headings) > 0.2:
         outline = []
@@ -81,7 +79,7 @@ def process_pdf(file_path, output_path):
                 { "level": h["level"], "text": h["text"], "page": page_num }
                 for h in headings
             ])
-        # Dedup/clean up
+        # Clean unwanted headings across pages
         txts = [h['text'] for h in outline]
         counter = Counter([t.strip().lower() for t in txts])
         seen = set()

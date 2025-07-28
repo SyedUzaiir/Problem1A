@@ -27,14 +27,14 @@ def extract_headings(lines):
         stripped = line.strip()
         if not stripped:
             continue
-        # New: Accept ALLCAPS 2+ word short headings (e.g. "PATHWAY OPTIONS") as H1
+        # Accept ALLCAPS 2+ word short headings as H1
         if stripped.isupper() and len(stripped.split()) >= 2 and not is_heading_artifact(stripped):
             headings.append({
                 "text": stripped,
                 "level": "H1"
             })
             continue
-        # As before
+        # Patterns for numbered/appendix/roman/title-like
         is_numbered = re.match(r'^\d+(\.\d+)*[\.\)]?\s+[A-Za-z]', stripped)
         is_appendix = re.match(r'^[A-Z]\.\s+[A-Za-z]', stripped)
         is_roman = re.match(r'^[IVXLCDM]+\.\s+[A-Za-z]', stripped)
