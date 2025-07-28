@@ -1,44 +1,45 @@
-```markdown
 # 📄 PDF Outline Extractor
 
 ## 📌 Overview
-This project extracts **Title and Headings (H1, H2, H3)** with page numbers from a PDF and outputs a structured JSON outline.
+
+This project extracts **Title and Headings (H1, H2, H3)** with page numbers from PDF files and outputs a structured JSON outline.
 
 ### ✅ Features
-- Detects **numbered, roman, appendix-style, and title-like headings**
-- Filters out **table of contents, footers, figure/table captions**
-- Outputs JSON in the required format
-- Runs **offline**, under **200MB**, and fast (**≤10s for 50 pages**)
+
+* Detects **numbered, roman numeral, appendix-style, and title-like headings**
+* Filters out **table of contents, footers, figure/table captions, and artifacts**
+* Outputs JSON in the required format
+* Runs **offline**, **fast (≤10s for 50 pages)**, and **lightweight (<200MB)**
 
 ---
 
 ## 📂 Project Structure
-```
 
+```
 pdf-outline-extractor/
 │── app/
-│   ├── main.py          # Entry point
-│   ├── extractor.py     # Heading extraction logic
+│   ├── main.py          # Entry point script
+│   ├── extractor.py     # Core heading extraction logic
 │   ├── utils.py         # Helper functions
-│   └── requirements.txt
+│   └── requirements.txt # Python dependencies
 │
 ├── Dockerfile
 ├── README.md
-
-````
+```
 
 ---
 
-## 🚀 How to Run
+## 🚀 How to Build & Run
 
 ### 1️⃣ Build Docker Image
-```bash
+
+```
 docker build --platform linux/amd64 -t pdf-outline-extractor:latest .
-````
+```
 
 ### 2️⃣ Run the Container
 
-```bash
+```
 docker run --rm \
 -v $(pwd)/input:/app/input \
 -v $(pwd)/output:/app/output \
@@ -47,14 +48,14 @@ docker run --rm \
 
 ---
 
-## 📄 Input / Output
+## 📄 Input & Output
 
-* **Input:** Place PDFs inside `./input/`
-* **Output:** Extracted JSON files will be saved in `./output/`
+* **Input:** Place PDFs in the `./input/` folder
+* **Output:** Extracted JSON files will be saved in the `./output/` folder
 
 ### 📌 Example Output
 
-```json
+```
 {
   "title": "Understanding AI",
   "outline": [
@@ -69,17 +70,21 @@ docker run --rm \
 
 ## ⚡ Performance
 
-* **Runs completely offline**
-* Uses **PyMuPDF** (fast PDF text extraction)
-* Handles **multi-page PDFs up to 50 pages in ≤10s**
+* Extracts headings **without internet access**
+* Uses **PyMuPDF** for fast text extraction
+* Processes **≤50-page PDFs in under 10 seconds**
 
 ---
 
 ## 🏆 Hackathon Compliance
 
-✅ **PDF Input → JSON Output**
-✅ **Fast (≤10s)**
-✅ **Lightweight (<200MB)**
-✅ **Offline / No Internet Calls**
+✅ Accepts PDFs from `/app/input` and writes JSON to `/app/output`
+✅ Works fully **offline**
+✅ Compatible with **AMD64 CPUs**
+✅ Meets execution time and size requirements
 
 ---
+
+## 📜 License
+
+MIT License
