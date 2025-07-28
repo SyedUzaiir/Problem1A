@@ -1,15 +1,11 @@
 import os
 import json
 import fitz  # PyMuPDF
-from extractor import extract_headings_from_text
+from extractor import extract_headings_from_text, GENERIC_UNINFORMATIVE
+from utils import FIELD_LABEL_PATTERN
 import re
 
 def get_base_dirs():
-    """
-    Returns (input_dir, output_dir) that work for both Docker and local:
-    - If /app/input exists, use it (Docker)
-    - Otherwise use ../input/ and ../output/ relative to this script (local)
-    """
     if os.path.exists("/app/input"):
         input_dir = "/app/input"
         output_dir = "/app/output"
@@ -22,7 +18,6 @@ def get_base_dirs():
 INPUT_DIR, OUTPUT_DIR = get_base_dirs()
 
 def get_title(doc):
-    """Return the first likely title line from the PDF."""
     for page in doc:
         text_lines = page.get_text("text").splitlines()
         for line in text_lines[:10]:
@@ -31,32 +26,53 @@ def get_title(doc):
                 return s
     return "Untitled Document"
 
-def determine_heading_level(heading):
-    """Assign outline level based on numbering or fallback to H1."""
-    if re.match(r'^\d+(\.\d+)*', heading):
-        depth = heading.split(".")
-        return f"H{min(len(depth), 3)}"
-    return "H1"
+from collections import Counter
+
+def filter_common_headings(headings, num_pages):
+    # Remove boilerplate repeated on >20% of pages or global generic words
+    count = Counter(h["text"].strip().lower() for h in headings)
+    blacklist = {t for t, f in count.items() if f > 0.2 * num_pages or t in GENERIC_UNINFORMATIVE}
+    seen = set()
+    result = []
+    for h in headings:
+        t = h["text"].strip().lower()
+        # Exclude generic one/two-word headings even if not frequent, unless numbered
+        if t in blacklist:
+            continue
+        nwords = len(t.split())
+        is_numbered = h["level"] in {"H1", "H2", "H3"} and re.match(r'^\d+(\.\d+)*', h["text"])
+        if nwords < 3 and t in GENERIC_UNINFORMATIVE and not is_numbered:
+            continue
+        if t in seen:
+            continue
+        seen.add(t)
+        result.append(h)
+    return result
 
 def process_pdf(file_path, output_path):
     doc = fitz.open(file_path)
     title = get_title(doc)
-    outline = []
+    all_headings = []
+    pagewise_headings = []
+    num_pages = doc.page_count
     for page_num, page in enumerate(doc, start=1):
         text = page.get_text("text")
         headings = extract_headings_from_text(text)
-        seen = set()
-        for heading in headings:
-            heading_key = (heading.strip().lower(), page_num)
-            if heading_key in seen:
-                continue  # dedupe per page
-            seen.add(heading_key)
-            level = determine_heading_level(heading)
-            outline.append({
-                "level": level,
-                "text": heading,
-                "page": page_num
-            })
+        pagewise_headings.append((page_num, headings))
+        all_headings += headings
+
+    # FORM SUPPRESSION: Like before
+    num_field_like = sum(1 for h in all_headings if FIELD_LABEL_PATTERN.search(h["text"]))
+    if all_headings and num_field_like / len(all_headings) > 0.2:
+        outline = []
+    else:
+        outline = []
+        for page_num, headings in pagewise_headings:
+            outline.extend([
+                { "level": h["level"], "text": h["text"], "page": page_num }
+                for h in headings
+            ])
+        outline = filter_common_headings(outline, num_pages)
     output = {"title": title, "outline": outline}
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(output, f, indent=2)

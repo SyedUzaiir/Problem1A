@@ -2,42 +2,7 @@
   "title": "Overview",
   "outline": [
     {
-      "level": "H1",
-      "text": "Foundation Level Extensions",
-      "page": 1
-    },
-    {
-      "level": "H1",
-      "text": "International Software Testing Qualifications Board",
-      "page": 1
-    },
-    {
-      "level": "H1",
-      "text": "Copyright Notice",
-      "page": 1
-    },
-    {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 2
-    },
-    {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 2
-    },
-    {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 3
-    },
-    {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 3
-    },
-    {
-      "level": "H1",
+      "level": "H2",
       "text": "Revision History",
       "page": 3
     },
@@ -48,16 +13,11 @@
     },
     {
       "level": "H1",
-      "text": "Initial version",
-      "page": 3
-    },
-    {
-      "level": "H1",
       "text": "23 JULY 2013",
       "page": 3
     },
     {
-      "level": "H1",
+      "level": "H2",
       "text": "WG reviewed and confirmed",
       "page": 3
     },
@@ -73,11 +33,6 @@
     },
     {
       "level": "H1",
-      "text": "Amended Business Outcomes and Chapters matching",
-      "page": 3
-    },
-    {
-      "level": "H1",
       "text": "20 DEC 2013",
       "page": 3
     },
@@ -87,89 +42,44 @@
       "page": 3
     },
     {
-      "level": "H1",
+      "level": "H3",
       "text": "GA release for Agile Extension",
       "page": 3
     },
     {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 4
-    },
-    {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 4
-    },
-    {
-      "level": "H1",
-      "text": "Revision History",
-      "page": 4
-    },
-    {
-      "level": "H1",
+      "level": "H3",
       "text": "Introduction to the Foundation Level Extensions",
       "page": 4
     },
     {
-      "level": "H1",
+      "level": "H3",
+      "text": "Introduction to Foundation Level Agile Tester Extension",
+      "page": 4
+    },
+    {
+      "level": "H2",
       "text": "Intended Audience",
       "page": 4
     },
     {
-      "level": "H1",
-      "text": "Career Paths for Testers",
-      "page": 4
-    },
-    {
-      "level": "H1",
-      "text": "Learning Objectives",
-      "page": 4
-    },
-    {
-      "level": "H1",
-      "text": "Entry Requirements",
-      "page": 4
-    },
-    {
-      "level": "H1",
-      "text": "Structure and Course Duration",
-      "page": 4
-    },
-    {
-      "level": "H1",
+      "level": "H2",
       "text": "Keeping It Current",
       "page": 4
     },
     {
-      "level": "H1",
-      "text": "Business Outcomes",
+      "level": "H2",
+      "text": "Trademarks",
       "page": 4
     },
     {
-      "level": "H1",
+      "level": "H2",
       "text": "Documents and Web Sites",
       "page": 4
     },
     {
-      "level": "H1",
-      "text": "Software Testing",
+      "level": "H2",
+      "text": "Foundation Level Working Group.",
       "page": 5
-    },
-    {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 5
-    },
-    {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 6
-    },
-    {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 6
     },
     {
       "level": "H2",
@@ -177,19 +87,14 @@
       "page": 6
     },
     {
-      "level": "H1",
-      "text": "Agile Tester",
+      "level": "H3",
+      "text": "The following Foundation Level Extension syllabus has been released:",
       "page": 6
     },
     {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 7
-    },
-    {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 7
+      "level": "H2",
+      "text": "Agile Tester",
+      "page": 6
     },
     {
       "level": "H2",
@@ -203,23 +108,8 @@
     },
     {
       "level": "H2",
-      "text": "2.2 Career Paths for Testers",
-      "page": 7
-    },
-    {
-      "level": "H2",
       "text": "2.3 Learning Objectives",
       "page": 7
-    },
-    {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 8
-    },
-    {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 8
     },
     {
       "level": "H2",
@@ -228,43 +118,23 @@
     },
     {
       "level": "H2",
-      "text": "2.5 Structure and Course Duration",
-      "page": 8
-    },
-    {
-      "level": "H1",
       "text": "Baseline: Foundation",
       "page": 8
     },
     {
-      "level": "H1",
+      "level": "H2",
       "text": "Extension: Agile Tester",
       "page": 8
     },
     {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 9
-    },
-    {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 9
+      "level": "H2",
+      "text": "Foundation Level.",
+      "page": 8
     },
     {
       "level": "H2",
       "text": "2.6 Keeping It Current",
       "page": 9
-    },
-    {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 10
-    },
-    {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 10
     },
     {
       "level": "H2",
@@ -277,29 +147,64 @@
       "page": 10
     },
     {
+      "level": "H1",
+      "text": "AFM1",
+      "page": 10
+    },
+    {
+      "level": "H1",
+      "text": "AFM2",
+      "page": 10
+    },
+    {
+      "level": "H1",
+      "text": "AFM3",
+      "page": 10
+    },
+    {
+      "level": "H1",
+      "text": "AFM4",
+      "page": 10
+    },
+    {
+      "level": "H1",
+      "text": "AFM5",
+      "page": 10
+    },
+    {
+      "level": "H1",
+      "text": "AFM6",
+      "page": 10
+    },
+    {
+      "level": "H1",
+      "text": "AFM7",
+      "page": 10
+    },
+    {
       "level": "H2",
       "text": "3.2 Content",
       "page": 10
     },
     {
-      "level": "H1",
-      "text": "Software Testing",
+      "level": "H3",
+      "text": "Chapter 1: Agile Software Development",
+      "page": 10
+    },
+    {
+      "level": "H2",
+      "text": "Manifesto.",
+      "page": 10
+    },
+    {
+      "level": "H3",
+      "text": "Chapter 2: Fundamental Agile Testing Principles, Practices, and Processes",
       "page": 11
     },
     {
-      "level": "H1",
-      "text": "Qualifications Board",
+      "level": "H3",
+      "text": "Chapter 3: Agile Testing Methods, Techniques, and Tools",
       "page": 11
-    },
-    {
-      "level": "H1",
-      "text": "Qualifications Board",
-      "page": 12
-    },
-    {
-      "level": "H1",
-      "text": "Software Testing",
-      "page": 12
     },
     {
       "level": "H2",
@@ -314,6 +219,16 @@
     {
       "level": "H2",
       "text": "4.2 Documents and Web Sites",
+      "page": 12
+    },
+    {
+      "level": "H2",
+      "text": "Identifier",
+      "page": 12
+    },
+    {
+      "level": "H2",
+      "text": "Reference",
       "page": 12
     }
   ]
